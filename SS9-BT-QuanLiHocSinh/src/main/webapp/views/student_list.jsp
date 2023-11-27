@@ -1,13 +1,12 @@
 <%--
   Created by IntelliJ IDEA.
   User: DELL
-  Date: 11/25/2023
-  Time: 8:45 PM
+  Date: 11/27/2023
+  Time: 3:01 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <html>
 <head>
     <title>Title</title>
@@ -71,33 +70,32 @@
     }
 </style>
 <body>
-<h2>Danh sách người dùng</h2>
 <p>
-    <button><a href="danh_sach?action=add">Thêm mới người dùng</a></button>
+    <a href="student?action=add">Thêm mới học sinh</a>
 </p>
-<form action="danh_sach">
+<form action="student">
     <input type="text" name="search" value="${searchName}">
     <input type="submit" name="action" value="search">
     <input type="submit" name="action" value="sortByName">
 </form>
 <table border="1" cellspacing="0">
     <tr>
-        <td>STT</td>
         <td>ID</td>
         <td>Name</td>
         <td>Email</td>
-        <td>Country</td>
+        <td>Birthday</td>
+        <td>Address</td>
         <td colspan="2">Action</td>
     </tr>
-    <c:forEach items='${list_user}' var="item" varStatus="loop">
+    <c:forEach items='${list_student}' var="item">
         <tr>
-            <td>${loop.index+1}</td>
             <td>${item.id}</td>
             <td>${item.name}</td>
             <td>${item.email}</td>
-            <td>${item.country}</td>
-            <td><a href="/danh_sach?action=edit&id=${item.id}">Edit</a></td>
-            <td><a href="/danh_sach?action=delete&id=${item.id}" onclick="return confirm('Are you sure?')">Delete</a>
+            <td>${item.birthday}</td>
+            <td>${item.address}</td>
+            <td><a href="/student?action=edit&id=${item.id}">Edit</a></td>
+            <td><a href="/student?action=delete&id=${item.id}" onclick="return confirm('Are you sure?')">Delete</a>
             </td>
         </tr>
     </c:forEach>

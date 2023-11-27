@@ -44,8 +44,8 @@ public class UserController extends HttpServlet {
                     request.getRequestDispatcher("views/list_user.jsp").forward(request, response);
                     break;
                 case "sortByName":
-                    List<User> sortedList = userService.findAllSortedByName();
-                    request.setAttribute("list_user", sortedList);
+                    List<User> sortList = userService.findAllSortedByName();
+                    request.setAttribute("list_user", sortList);
                     request.getRequestDispatcher("views/list_user.jsp").forward(request, response);
                     break;
                 default:
@@ -54,6 +54,7 @@ public class UserController extends HttpServlet {
             }
         }
     }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

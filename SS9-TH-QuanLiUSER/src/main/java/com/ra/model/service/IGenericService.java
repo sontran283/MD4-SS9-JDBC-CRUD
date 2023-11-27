@@ -14,5 +14,6 @@ public interface IGenericService<T, ID> {
     int getNewId();
 
     List<T> finByName(String name);
+
     List<T> sortByName(String name);
 }

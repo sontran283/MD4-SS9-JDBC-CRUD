@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
-    private static List<User> userList = new ArrayList<>();
 
     @Override
     public List<User> findAll() {
@@ -78,14 +77,26 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User findById(Integer integer) {
+    public User findById(Integer id) {
         List<User> users = findAll();
         for (User user : users) {
-            if (user.getId() == integer) {
+            if (user.getId() == id) {
                 return user;
             }
         }
         return null;
+//        Connection connection = null;
+//        User user = new User();
+//        connection = ConnectionDB.openConnection();
+//        PreparedStatement statement = connection.prepareStatement("SELECT  * FROM user WHERE ID'?'");
+//        statement.setInt(1, id);
+//        ResultSet resultSet = statement.executeQuery();
+//        while (resultSet.next()) {
+//            user.setId(resultSet.getInt("id"));
+//            user.setName(resultSet.getString("name"));
+//            user.setEmail(resultSet.getString("email"));
+//            user.setCountry(resultSet.getString("country"));
+//        }
     }
 
     @Override
