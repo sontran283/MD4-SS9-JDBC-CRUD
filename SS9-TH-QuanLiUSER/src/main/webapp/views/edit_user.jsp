@@ -10,7 +10,64 @@
 <head>
     <title>Title</title>
 </head>
-<body>
+<style>
+    /* Add your styles here */
+    body {
+        font-family: Arial, sans-serif;
+    }
 
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+    }
+
+    button {
+        padding: 10px 15px;
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+<body>
+<p>
+    <a href="/danh_sach">Back to user list</a>
+</p>
+<h1 class="text-center text-danger">Cập nhật User</h1>
+<form action="<%=request.getContextPath()%>/danh_sach" method="POST">
+    <div class="form-group">
+        <input type="hidden" name="id" value="${user.id}">
+        <label for="name">name: </label>
+        <input type="text" class="form-control" id="name" name="name" value="${user.name}">
+    </div>
+    <div class="form-group">
+        <label for="email">email: </label>
+        <input type="text" class="form-control" id="email" name="email" value="${user.email}">
+    </div>
+    <div class="form-group">
+        <label for="country">country: </label>
+        <input type="text" class="form-control" id="country" name="country" value="${user.country}">
+    </div>
+    <button type="submit" class="btn btn-primary" value="edit" name="action">Edit</button>
+</form>
 </body>
 </html>

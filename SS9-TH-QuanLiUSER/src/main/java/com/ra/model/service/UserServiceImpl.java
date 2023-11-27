@@ -4,6 +4,8 @@ import com.ra.model.dao.UserDAO;
 import com.ra.model.dao.UserDAOImpl;
 import com.ra.model.entity.User;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
@@ -37,5 +39,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> finByName(String name) {
         return userDAO.finByName(name);
+    }
+
+    @Override
+    public List<User> sortByName(String name) {
+        return userDAO.sortByName(name);
+    }
+
+    @Override
+    public List<User> findAllSortedByName() {
+        List<User> userList = userDAO.findAll();
+        Collections.sort(userList, Comparator.comparing(User::getName));
+        return userList;
     }
 }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
+    private static List<User> userList = new ArrayList<>();
 
     @Override
     public List<User> findAll() {
@@ -50,7 +51,7 @@ public class UserDAOImpl implements UserDAO {
                 String sql = "INSERT INTO user(name,email,country) VALUES (?,?,?)";
                 PreparedStatement pstm = connection.prepareStatement(sql);
                 pstm.setString(1, user.getName());
-                pstm.setString(2, user.getName());
+                pstm.setString(2, user.getEmail());
                 pstm.setString(3, user.getCountry());
                 int check = pstm.executeUpdate();
                 if (check > 0) {
@@ -60,7 +61,7 @@ public class UserDAOImpl implements UserDAO {
                 String sql = "UPDATE user SET name =?, email =?, country=? WHERE (id = ?)";
                 PreparedStatement pstm = connection.prepareStatement(sql);
                 pstm.setString(1, user.getName());
-                pstm.setString(2, user.getName());
+                pstm.setString(2, user.getEmail());
                 pstm.setString(3, user.getCountry());
                 pstm.setInt(4, id);
                 int check = pstm.executeUpdate();
@@ -110,6 +111,52 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public List<User> finByName(String name) {
-        return null;
+        Connection connection = null;
+        List<User> users = new ArrayList<>();
+        try {
+            connection = ConnectionDB.openConnection();
+            String sql = "SELECT * FROM user WHERE LOWER(name) LIKE ?";
+            PreparedStatement pstm = connection.prepareStatement(sql);
+            pstm.setString(1, "%" + name.toLowerCase().trim() + "%");
+            ResultSet resultSet = pstm.executeQuery();
+            while (resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getInt("id"));
+                user.setName(resultSet.getString("name"));
+                user.setEmail(resultSet.getString("email"));
+                user.setCountry(resultSet.getString("country"));
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            ConnectionDB.closeConnection(connection);
+        }
+        return users;
+    }
+
+    @Override
+    public List<User> sortByName(String name) {
+        Connection connection = null;
+        List<User> users = new ArrayList<>();
+        try {
+            connection = ConnectionDB.openConnection();
+            String sql = "SELECT * FROM user ORDER BY name";
+            PreparedStatement pstm = connection.prepareStatement(sql);
+            ResultSet resultSet = pstm.executeQuery();
+            while (resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getInt("id"));
+                user.setName(resultSet.getString("name"));
+                user.setEmail(resultSet.getString("email"));
+                user.setCountry(resultSet.getString("country"));
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            ConnectionDB.closeConnection(connection);
+        }
+        return users;
     }
 }

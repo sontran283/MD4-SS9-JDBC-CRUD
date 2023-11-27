@@ -71,9 +71,14 @@
     }
 </style>
 <body>
-<h2>Danh mục người dùng</h2>
+<h2>Danh sách người dùng</h2>
+<form action="danh_sach">
+    <input type="text" name="search" value="${searchName}">
+    <input type="submit" name="action" value="search">
+    <input type="submit" name="action" value="sortByName">
+</form>
 <p>
-    <button><a href="danh_sach?action=add">Thêm người dùng</a></button>
+    <button><a href="danh_sach?action=add">Thêm mới người dùng</a></button>
 </p>
 <table border="1" cellspacing="0">
     <tr>

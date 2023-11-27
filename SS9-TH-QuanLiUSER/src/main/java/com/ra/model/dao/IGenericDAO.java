@@ -2,7 +2,7 @@ package com.ra.model.dao;
 
 import java.util.List;
 
-public interface IGenericDAO <T,ID>{
+public interface IGenericDAO<T, ID> {
     List<T> findAll();
 
     boolean saveOrUpdate(T t, ID id);
@@ -14,4 +14,6 @@ public interface IGenericDAO <T,ID>{
     int getNewId();
 
     List<T> finByName(String name);
+
+    List<T> sortByName(String name);
 }

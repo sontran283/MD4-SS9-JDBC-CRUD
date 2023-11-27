@@ -26,11 +26,27 @@ public class UserController extends HttpServlet {
                     response.sendRedirect("views/add_user.jsp");
                     break;
                 case "edit":
+                    int idEdit = Integer.parseInt(request.getParameter("id"));
+                    User user = userService.findById(idEdit);
+                    request.setAttribute("user", user);
+                    request.getRequestDispatcher("views/edit_user.jsp").forward(request, response);
                     break;
                 case "delete":
                     int idDelete = Integer.parseInt(request.getParameter("id"));
                     userService.delete(idDelete);
                     showListUser(request, response);
+                    break;
+                case "search":
+                    String name = request.getParameter("search");
+                    List<User> listSearch = userService.finByName(name);
+                    request.setAttribute("list_user", listSearch);
+                    request.setAttribute("searchName", name);
+                    request.getRequestDispatcher("views/list_user.jsp").forward(request, response);
+                    break;
+                case "sortByName":
+                    List<User> sortedList = userService.findAllSortedByName();
+                    request.setAttribute("list_user", sortedList);
+                    request.getRequestDispatcher("views/list_user.jsp").forward(request, response);
                     break;
                 default:
                     showListUser(request, response);
@@ -41,7 +57,35 @@ public class UserController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        String action = request.getParameter("action");
+        if (action == null) {
+            User user = new User();
+            user.setName(request.getParameter("name"));
+            user.setEmail(request.getParameter("email"));
+            user.setCountry(request.getParameter("country"));
+            if (userService.saveOrUpdate(user, null)) {
+                showListUser(request, response);
+            } else {
+                response.sendRedirect("views/add_user.jsp?err");
+            }
+        }
+        if (action.equals("edit")) {
+            editUserPost(request, response);
+        }
+    }
 
+    private void editUserPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int idEdit = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String country = request.getParameter("country");
+        User user = new User(idEdit, name, email, country);
+        if (userService.saveOrUpdate(user, idEdit)) {
+            showListUser(request, response);
+        } else {
+            response.sendRedirect("views/add_user.jsp");
+        }
     }
 
     public void showListUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
